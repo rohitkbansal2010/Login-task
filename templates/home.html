@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  {% if user.is_admin %}
+    You Are the admin..
+
+    <div class="container">
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col"><center>USERNAME</center></th>
+            <th scope="col"><center>EMAIL</center></th>
+            <th scope="col"><center>ACTIVE</center></th>
+            <th scope="col"><center>ADMIN</center></th>
+            <th scope="col"><center>STAFF</center></th>
+            <th scope="col"><center>SUPERUSER</center></th>
+            <th scope="col"><center>ACTION</center></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td><center>{{user.username}}</center></td>
+            <td><center>{{user.email}}</center></td>
+            <td><center>{{user.is_active}}</center></td>
+            <td><center>{{user.is_admin}}</center></td>
+            <td><center>{{user.is_staff}}</center></td>
+            <td><center>{{user.is_superuser}}</center></td>
+            <td><center>
+                  <a href="{% url 'deleteUser' user.id%}">Delete</a>
+                </center>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endif %}
+
+  <p><center><a class="btn btn-danger" href="{% url 'logout' %}">logout</a>
+    </center></p>
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a> |
+  <a href="{% url 'signup' %}">signup</a>
+{% endif %}
+
+{% endblock %}
